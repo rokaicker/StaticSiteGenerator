@@ -3,7 +3,7 @@ const path = require('path');
 const readline = require('readline');
 
 // function to generate HTML from .txt file
-module.exports.generateSite = (file) => {
+function generateSite(file) {
   // check file extension (should only be using .txt files)
   let ext = path.extname(file);
   let fileName = path.basename(file, ext);
@@ -13,6 +13,11 @@ module.exports.generateSite = (file) => {
   // create /dist folder if it doesn't exist
   if (!fs.existsSync('./dist')){
     fs.mkdirSync('./dist');
+  } else {
+    // if it does exist, delete all files in it (folder must be empty on each run)
+    fs.readdirSync('./dist').forEach((file) => {
+      fs.unlinkSync(`./dist/${file}`);
+    });
   }
 
   const output = './dist/' + fileName + '.html';
@@ -79,4 +84,25 @@ module.exports.generateSite = (file) => {
     outputStream.write(htmlHeader);
     outputStream.write(htmlBody);
   });
-}
+};
+
+function recursiveFileSearch(dir, arr){
+  // get all items in the directory
+  let items = fs.readdirSync(dir);
+  // loop through items
+  items.forEach((item) => {
+    // check if the current item is a directory, if it is, call the function again with the current item as the directory
+    if (fs.statSync(dir + '/' + item).isDirectory()){
+      recursiveFileSearch(dir + '/' + item, arr);
+    }
+    else {
+      // if it's not a directory, add it to the array of file paths
+      arr.push(dir + '/' + item);
+    }
+  });
+};
+
+module.exports = {
+  generateSite,
+  recursiveFileSearch
+};

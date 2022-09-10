@@ -47,9 +47,15 @@ if (options.input){
       helper.generateSite(path);
     }
 
-    // if the path points to a directory (folder)
+    // if the path points to a directory (folder) generate HTML files for all .txt files in the folder (including subfolders aka recursive search)
     if (stats.isDirectory()){
-
+      // get all files in the directory
+      let fileArr = [];
+      helper.recursiveFileSearch(path, fileArr);
+      // generate HTML files for all .txt files in the directory
+      fileArr.forEach((file) => {
+        helper.generateSite(file);
+      });
     }
   });
 }
