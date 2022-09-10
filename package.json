@@ -1,6 +1,8 @@
 {
+  "name": "rohan-ssg",
+  "description": "Static site generator",
+  "version": "0.0.1",
   "dependencies": {
     "commander": "^9.4.0"
-  },
-  "version": "0.0.1"
+  }
 }
