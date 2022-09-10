@@ -2,6 +2,10 @@
   "name": "rohan-ssg",
   "description": "Static site generator",
   "version": "0.0.1",
+  "main": "rohan-ssg.js",
+  "bin":{
+    "rohan-ssg": "./rohan-ssg.js"
+  },
   "dependencies": {
     "commander": "^9.4.0"
   }
