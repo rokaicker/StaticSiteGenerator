@@ -1,5 +1,8 @@
 #!/usr/bin/env node
 
+// helper functions
+var helper = require('./helper.js');
+
 // Node filesystem module
 const fs = require('fs');
 
@@ -40,7 +43,8 @@ if (options.input){
 
     // if the path points to a file
     if (stats.isFile()){
-      
+      // generate HTML file
+      helper.generateSite(path);
     }
 
     // if the path points to a directory (folder)
@@ -50,4 +54,5 @@ if (options.input){
   });
 }
 
+//
 
