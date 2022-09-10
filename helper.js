@@ -10,8 +10,12 @@ module.exports.generateSite = (file) => {
   if (ext !== '.txt'){
     return
   }
+  // create /dist folder if it doesn't exist
+  if (!fs.existsSync('./dist')){
+    fs.mkdirSync('./dist');
+  }
 
-  const output = fileName + '.html';
+  const output = './dist/' + fileName + '.html';
   const inputStream = fs.createReadStream(file);
   const outputStream = fs.createWriteStream(output);
   const rl = readline.createInterface({
@@ -40,10 +44,12 @@ module.exports.generateSite = (file) => {
       if (emptyLines === 2){
         title = text;
         text = line;
+        emptyLines = 0;
       }
       else if (emptyLines === 1){
         body += `<p>${text}</p>`;
         text = line;
+        emptyLines = 0;
       } 
       else {
         text += line;
@@ -51,23 +57,25 @@ module.exports.generateSite = (file) => {
     }
   });
 
-  // generate HTML file
-  const htmlHeader = `
-  <!DOCTYPE html>
-  <html lang="en">
-  <head>
-    <meta charset="utf-8">
-    <title>${title}</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-  </head>
-  `
-  const htmlBody = `
-  <body>
-    ${body}
-  </body>
-  </html>
-  `
+
   rl.on('close', () => {
+    // generate HTML file
+    let htmlHeader = `
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+      <meta charset="utf-8">
+      <title>${title}</title>
+      <meta name="viewport" content="width=device-width, initial-scale=1">
+    </head>
+    `;
+    let htmlBody = `
+    <body>
+      <h1>${title}</h1>
+      ${body}
+    </body>
+    </html>
+    `;
     outputStream.write(htmlHeader);
     outputStream.write(htmlBody);
   });
