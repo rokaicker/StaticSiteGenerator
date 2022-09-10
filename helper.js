@@ -3,7 +3,7 @@ const path = require('path');
 const readline = require('readline');
 
 // function to generate HTML from .txt file
-function generateSite(file) {
+function generateSite(file, stylesheet = '') {
   // check file extension (should only be using .txt files)
   let ext = path.extname(file);
   let fileName = path.basename(file, ext);
@@ -65,15 +65,29 @@ function generateSite(file) {
 
   rl.on('close', () => {
     // generate HTML file
-    let htmlHeader = `
-    <!DOCTYPE html>
-    <html lang="en">
-    <head>
-      <meta charset="utf-8">
-      <title>${title}</title>
-      <meta name="viewport" content="width=device-width, initial-scale=1">
-    </head>
-    `;
+    let htmlHeader = '';
+    if (stylesheet.length != 0){
+      htmlHeader = `
+        <!DOCTYPE html>
+        <html lang="en">
+        <head>
+          <link rel="stylesheet" href="${stylesheet}">
+          <meta charset="utf-8">
+          <title>${title}</title>
+          <meta name="viewport" content="width=device-width, initial-scale=1">
+        </head>
+      `;
+    } else {
+      htmlHeader = `
+        <!DOCTYPE html>
+        <html lang="en">
+        <head>
+          <meta charset="utf-8">
+          <title>${title}</title>
+          <meta name="viewport" content="width=device-width, initial-scale=1">
+        </head>
+      `;
+    }
     let htmlBody = `
     <body>
       <h1>${title}</h1>

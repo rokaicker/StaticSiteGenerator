@@ -17,7 +17,8 @@ const version = pj.version;
 program
   .option('-v, --version', 'current program version')
   .option('-h, --help', 'program instructions')
-  .option('-i, --input <input>', 'input folder or file');
+  .option('-i, --input <input>', 'input folder or file')
+  .option('-s, --stylesheet <stylesheet>', 'stylesheet url');
 
 program.parse();
 
@@ -44,7 +45,11 @@ if (options.input){
     // if the path points to a file
     if (stats.isFile()){
       // generate HTML file
-      helper.generateSite(path);
+      if (options.stylesheet){
+        helper.generateSite(path, options.stylesheet);
+      } else {
+        helper.generateSite(path);
+      }
     }
 
     // if the path points to a directory (folder) generate HTML files for all .txt files in the folder (including subfolders aka recursive search)
@@ -54,7 +59,11 @@ if (options.input){
       helper.recursiveFileSearch(path, fileArr);
       // generate HTML files for all .txt files in the directory
       fileArr.forEach((file) => {
-        helper.generateSite(file);
+        if (options.stylesheet){
+          helper.generateSite(file, options.stylesheet);
+        } else {
+          helper.generateSite(file);
+        }
       });
     }
   });
