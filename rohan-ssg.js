@@ -36,7 +36,13 @@ if (options.help){
     -v, --version: current program version
     -h, --help: program instructions
     -i, --input: path input folder or file to be converted to HTML. Note that folders are recursively searched for .txt files.
-    -s, --stylesheet: stylesheet url to be used in the HTML file`);
+    -s, --stylesheet: stylesheet url to be used in the HTML file
+    
+    The files will be saved in a '/dist' folder in the same directory as the input file/folder.
+
+    For example, to generate a single HTML file from a .txt file with a specific stylesheet URL, use the following command:
+    rohan-ssg -i .PATH/TO/FILE/input.txt -s https://example.com/stylesheet.css
+    `);
 }
 
 if (options.input){
