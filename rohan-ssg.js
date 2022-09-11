@@ -6,6 +6,7 @@ var helper = require('./helper.js');
 // Node filesystem module
 const fs = require('fs');
 
+// Commander npm module to build CLI tool
 const { Command } = require('commander');
 const program = new Command();
 
@@ -29,7 +30,13 @@ if (options.version){
 }
 
 if (options.help){
-  console.log(`Instructions: `);
+  console.log(
+  `  This program is used to generate a static HTML web page from a given .txt file OR a folder containing .txt files.
+  The following options are available: 
+    -v, --version: current program version
+    -h, --help: program instructions
+    -i, --input: path input folder or file to be converted to HTML. Note that folders are recursively searched for .txt files.
+    -s, --stylesheet: stylesheet url to be used in the HTML file`);
 }
 
 if (options.input){
@@ -69,5 +76,5 @@ if (options.input){
   });
 }
 
-//
+
 
