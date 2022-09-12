@@ -1,7 +1,7 @@
 {
   "name": "rohan-ssg",
   "description": "Static site generator",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "main": "rohan-ssg.js",
   "bin": {
     "rohan-ssg": "./rohan-ssg.js"
