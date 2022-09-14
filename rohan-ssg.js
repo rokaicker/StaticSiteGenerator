@@ -26,6 +26,7 @@ program.parse();
 const options = program.opts();
 
 if (options.version){
+  console.log('The name of the tool is: rohan-ssg');
   console.log(`The current version is: ${version}`);
 }
 
