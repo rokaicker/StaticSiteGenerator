@@ -52,7 +52,9 @@ function generateSite(file, stylesheet = '') {
         emptyLines = 0;
       }
       else if (emptyLines === 1){
-        body += `<p>${text}</p>`;
+        body += `
+        <p>${text}</p>
+        `;
         text = line;
         emptyLines = 0;
       } 
