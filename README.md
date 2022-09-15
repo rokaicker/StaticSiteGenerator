@@ -5,6 +5,9 @@ This tool enables the user to:
   1. Specify a ".txt" file to have it converted into an HTML webpage
   2. Specify a folder containing multiple ".txt" files to convert all of them into HTML web pages. The program will recursively search subfolders for ".txt" files as well. 
 
+NOTE: This tool requires the use of a BASH shell.
+
+
 ## Installation
 To install this program, first `git clone` the repository. 
 
