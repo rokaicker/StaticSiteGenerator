@@ -8,7 +8,9 @@ This tool enables the user to:
 ## Installation
 To install this program, first `git clone` the repository. 
 
-Then open a terminal inside of the newly created folder, and run `npm install -g`.
+Then open a terminal inside of the newly created folder, and run `npm install` to install the node dependencies.
+
+Then, in the same folder run `npm install -g` to globally install the command line tool. 
 
 This command will install the programming globally on your system.
 
