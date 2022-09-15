@@ -66,16 +66,11 @@ function generateSite(file, stylesheet = '') {
         body += `
         <p>${text}</p>
         `;
-        text = line;
+        text = (line + ' ');
         emptyLines = 0;
       } 
       else {
-        if (!punctuationCheck(line)){
-          text += (line + ' ');
-        }
-        else {
-          text += line;
-        }
+        text += (line + ' ');
       }
     }
   });
@@ -83,6 +78,11 @@ function generateSite(file, stylesheet = '') {
 
   rl.on('close', () => {
     // generate HTML file
+
+    // the below line is necessary to add the last block of text to the body
+    body += `
+    <p>${text}</p>
+    `;
     let htmlHeader = '';
     if (stylesheet.length != 0){
       htmlHeader = `
