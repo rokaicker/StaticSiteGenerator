@@ -2,6 +2,13 @@ const fs = require('fs');
 const path = require('path');
 const readline = require('readline');
 
+function punctuationCheck(str){
+  if (str.slice(-1) === '.' || str.slice(-1) === '!' || str.slice(-1) === '?' || str.slice(-1) === ',' || str.slice(-1) === ';' || str.slice(-1) === ':'){
+    return true;
+  }
+  return false;
+}
+
 // function to generate HTML from .txt file
 function generateSite(file, stylesheet = '') {
   // check file extension (should only be using .txt files)
@@ -40,18 +47,22 @@ function generateSite(file, stylesheet = '') {
   // variable to keep track of number of empty lines between blocks of text
   let emptyLines = 0;
 
+  // variable to keep track if a title has been found
+  let titleFound = false;
+
   // read each line of the file
   rl.on('line', (line) => {
     if (line.length === 0){
       emptyLines++;
     }
     else {
-      if (emptyLines === 2){
+      if (emptyLines === 2 && !titleFound){
         title = text;
+        titleFound = true;
         text = line;
         emptyLines = 0;
       }
-      else if (emptyLines === 1){
+      else if (emptyLines > 0 && titleFound){
         body += `
         <p>${text}</p>
         `;
@@ -59,7 +70,12 @@ function generateSite(file, stylesheet = '') {
         emptyLines = 0;
       } 
       else {
-        text += line;
+        if (!punctuationCheck(line)){
+          text += (line + ' ');
+        }
+        else {
+          text += line;
+        }
       }
     }
   });
