@@ -9,12 +9,12 @@ function punctuationCheck(str){
   return false;
 }
 
-// function to generate HTML from .txt file
+// function to generate HTML from .txt or .md file
 function generateSite(file, stylesheet = '') {
   // check file extension (should only be using .txt files)
   let ext = path.extname(file);
   let fileName = path.basename(file, ext);
-  if (ext !== '.txt'){
+  if (ext !== '.txt' && ext !== '.md'){
     return
   }
   // create /dist folder if it doesn't exist
@@ -50,39 +50,69 @@ function generateSite(file, stylesheet = '') {
   // variable to keep track if a title has been found
   let titleFound = false;
 
-  // read each line of the file
-  rl.on('line', (line) => {
-    if (line.length === 0){
-      emptyLines++;
-    }
-    else {
-      if (emptyLines === 2 && !titleFound){
-        title = text;
-        titleFound = true;
-        text = line;
-        emptyLines = 0;
+  //variable to hold whether the file is markdown
+  let fileMarkdown = false;
+
+  // read each line of the text file
+  if (ext == '.txt')
+  {
+    rl.on('line', (line) => {
+      if (line.length === 0){
+        emptyLines++;
       }
-      else if (emptyLines > 0 && titleFound){
-        body += `
-        <p>${text}</p>
-        `;
-        text = (line + ' ');
-        emptyLines = 0;
-      } 
       else {
-        text += (line + ' ');
+        if (emptyLines === 2 && !titleFound){
+          title = text;
+          titleFound = true;
+          text = line;
+          emptyLines = 0;
+        }
+        else if (emptyLines > 0 && titleFound){
+          body += `
+          <p>${text}</p>
+          `;
+          text = (line + ' ');
+          emptyLines = 0;
+        } 
+        else {
+          text += (line + ' ');
+        }
       }
-    }
-  });
-
-
+    });
+  }
+  else if (ext == '.md') {
+    fileMarkdown = true;
+    rl.on('line', (line) => {
+      //check if the line is a heading 1
+      if (line.startsWith('# '))
+      {
+        console.log("line: " + line);
+        //cut the '# ' out of the line
+        text = line.substring(2);
+        body += `
+        <h1>${text}</h1>
+        `;
+      }
+      else if (line != "")
+      {
+        console.log("line2: " + line);
+        body += `
+        <p>${line}</p>
+        `;
+      }
+    })
+  }
+  
   rl.on('close', () => {
     // generate HTML file
 
     // the below line is necessary to add the last block of text to the body
-    body += `
-    <p>${text}</p>
-    `;
+    if (ext == '.txt')
+    {
+      body += `
+      <p>${text}</p>
+      `;
+    }
     let htmlHeader = '';
     if (stylesheet.length != 0){
       htmlHeader = `
@@ -106,13 +136,30 @@ function generateSite(file, stylesheet = '') {
         </head>
       `;
     }
-    let htmlBody = `
-    <body>
-      <h1>${title}</h1>
-      ${body}
-    </body>
-    </html>
-    `;
+
+    let htmlBody = "";
+
+    //check if file is .txt or .md, need to generate differently for each
+    if (!fileMarkdown)
+    {
+      htmlBody = `
+      <body>
+        <h1>${title}</h1>
+        ${body}
+      </body>
+      </html>
+      `;
+    }
+    else
+    {
+      htmlBody = `
+      <body>
+        ${body}
+      </body>
+      </html>
+      `;
+    }
+
     outputStream.write(htmlHeader);
     outputStream.write(htmlBody);
   });
