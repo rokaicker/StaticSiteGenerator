@@ -2,8 +2,8 @@
 ## Overview
 This tool enables the user to:
 
-  1. Specify a ".txt" file to have it converted into an HTML webpage
-  2. Specify a folder containing multiple ".txt" files to convert all of them into HTML web pages. The program will recursively search subfolders for ".txt" files as well. 
+  1. Specify a ".txt" or ".md" file to have it converted into an HTML webpage
+  2. Specify a folder containing multiple ".txt" and ".md" files to convert all of them into HTML web pages. The program will recursively search subfolders for ".txt" files as well. 
 
 NOTE: This tool requires the use of a BASH shell.
 
@@ -52,7 +52,7 @@ This program is used to generate a static HTML web page from a given .txt file O
 The following options are available: 
     -v, --version: current program version
     -h, --help: program instructions
-    -i, --input: path input folder or file to be converted to HTML. Note that folders are recursively searched for .txt files.
+    -i, --input: path input folder or file to be converted to HTML. Note that folders are recursively searched for .txt and .md files.
     -s, --stylesheet: stylesheet url to be used in the HTML file
     
     The files will be saved in a '/dist' folder in the same directory as the input file/folder.
@@ -65,7 +65,7 @@ The following options are available:
 
 For a specific file, the user can run:
 
-`rohan-ssg -i PATH/TO/FILE/example.txt` or `rohan-ssg --input PATH/TO/FILE/example.txt`
+`rohan-ssg -i PATH/TO/FILE/example.txt` or `rohan-ssg --input PATH/TO/FILE/example.txt` or `rohan-ssg --input PATH/TO/FILE/example.md`
 
 This will then generate a `/dist` directory, containing the HTML file that had been generated.
 
@@ -73,7 +73,7 @@ For a folder:
 
 `rohan-ssg -i PATH/TO/FOLDER` or `rohan-ssg --input PATH/TO/FOLDER`
 
-Similar to above, this will also generate a `/dist` directory, which will contain all of the HTML files that had been generated from all of the .txt files inside of the specified folder (including subfolders). 
+Similar to above, this will also generate a `/dist` directory, which will contain all of the HTML files that had been generated from all of the .txt and .md files inside of the specified folder (including subfolders). 
 
 To specify a stylesheet to be applied to all HTML files, the user can choose to use the `-s` or `--stylesheet` option as follows:
 
