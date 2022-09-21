@@ -53,10 +53,8 @@ function generateSite(file, stylesheet = '') {
   //variable to hold whether the file is markdown
   let fileMarkdown = false;
 
-  // read each line of the text file
-  if (ext == '.txt')
-  {
-    rl.on('line', (line) => {
+  rl.on('line', (line) => {
+    if (ext == '.txt') {
       if (line.length === 0){
         emptyLines++;
       }
@@ -77,16 +75,13 @@ function generateSite(file, stylesheet = '') {
         else {
           text += (line + ' ');
         }
-      }
-    });
+    }
   }
-  else if (ext == '.md') {
-    fileMarkdown = true;
-    rl.on('line', (line) => {
+    else if (ext == '.md') {
       //check if the line is a heading 1
+      fileMarkdown = true;
       if (line.startsWith('# '))
       {
-        console.log("line: " + line);
         //cut the '# ' out of the line
         text = line.substring(2);
         body += `
@@ -95,13 +90,12 @@ function generateSite(file, stylesheet = '') {
       }
       else if (line != "")
       {
-        console.log("line2: " + line);
         body += `
         <p>${line}</p>
         `;
       }
-    })
-  }
+    }
+  });
   
   rl.on('close', () => {
     // generate HTML file
