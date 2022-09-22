@@ -53,6 +53,9 @@ function generateSite(file, stylesheet = '') {
   //variable to hold whether the file is markdown
   let fileMarkdown = false;
 
+  // regex to find markdown link 
+  const regex = /\[(.*?)\]\((.*?)\)/g;
+
   rl.on('line', (line) => {
     if (ext == '.txt') {
       if (line.length === 0){
@@ -88,6 +91,21 @@ function generateSite(file, stylesheet = '') {
         <h1>${text}</h1>
         `;
       }
+      else if (line.startsWith('## '))
+      {
+        //cut the '## ' out of the line
+	text = line.substring(3);
+	body += `
+	      <h2>${text}</h2>
+	`;
+      }
+      else if (regex.test(line))
+      {
+	//convert markdown link to href 
+	body += `
+	      <p>${line.replaceAll(regex, '<a href="$2">$1</a>')}</p>
+	`;
+      } 
       else if (line != "")
       {
         body += `
