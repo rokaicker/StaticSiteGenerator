@@ -11,9 +11,7 @@ const { Command } = require('commander');
 const program = new Command();
 
 // get version from package.json file
-// - based on https://stackoverflow.com/questions/41123631/how-to-get-the-version-from-the-package-json-in-typescript
-const pj = require('../package.json');
-const version = pj.version;
+const {version} = require('../package.json');
 
 program
   .option('-v, --version', 'current program version')
