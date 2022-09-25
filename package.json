@@ -4,7 +4,7 @@
   "version": "1.0.2",
   "main": "rohan-ssg.js",
   "bin": {
-    "rohan-ssg": "./rohan-ssg.js"
+    "rohan-ssg": "./src/rohan-ssg.js"
   },
   "dependencies": {
     "commander": "^9.4.0"
