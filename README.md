@@ -2,8 +2,10 @@
 ## Overview
 This tool enables the user to:
 
-  1. Specify a ".txt" or ".md" file to have it converted into an HTML webpage
+  1. Specify a ".txt" or ".md" file to have it converted into an HTML webpage.
   2. Specify a folder containing multiple ".txt" and ".md" files to convert all of them into HTML web pages. The program will recursively search subfolders for ".txt" files as well. 
+
+For markdown files, we currently support proper styling syntax features for italics, bold, heading 1, heading 2, and a link.
 
 NOTE: This tool requires the use of a BASH shell.
 
