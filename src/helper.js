@@ -97,6 +97,11 @@ function generateSite(file, lang, stylesheet = ''){
         <h2>${text}</h2>
         `;
       }
+      else if (line === '---'){
+        body += `
+        <hr>
+        `;
+      }
       else if (line != "")
       {
         //convert markdown link to href 
