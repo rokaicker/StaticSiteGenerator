@@ -97,6 +97,14 @@ function generateSite(file, lang, stylesheet = ''){
         <h2>${text}</h2>
         `;
       }
+      else if (line.startsWith('> '))
+      {
+        //cut the '> ' out of the line
+        text = line.substring(2);
+        body += `
+        <blockquote>${text}</blockquote>
+        `;
+      }
       else if (line != "")
       {
         //convert markdown link to href 

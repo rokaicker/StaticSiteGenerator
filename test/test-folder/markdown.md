@@ -19,3 +19,5 @@ This line is to test bold in different forms such as : **asterisk bold** and __u
 This line is to test bold and italics combined : ***asterisk bold and italic*** and ___underscore bold and italic___.
 
 This line is to test the code block: `this is a piece of code`
+
+> This line is to test the ability for the program to generate blockquotes in html.
