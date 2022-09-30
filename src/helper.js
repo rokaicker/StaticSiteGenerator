@@ -109,6 +109,8 @@ function generateSite(file, stylesheet = '') {
         line = line.replace(/\*(.*)\*/g, '<i>$1</i>');
         //convert markdown italics _ to html <i> element
         line = line.replace(/_(.*)_/g, '<i>$1</i>');
+        //convert markdown code ` to html <code> element
+        line = line.replace(/`(.*?)`/g, '<code>$1</code>');
         
         body += `
         <p>${line}</p>
