@@ -100,6 +100,14 @@ function generateSite(file, lang, stylesheet = ''){
       else if (line === '---'){
         body += `
         <hr>
+        `'
+      }
+      else if (line.startsWith('> '))
+      {
+        //cut the '> ' out of the line
+        text = line.substring(2);
+        body += `
+        <blockquote>${text}</blockquote>
         `;
       }
       else if (line != "")

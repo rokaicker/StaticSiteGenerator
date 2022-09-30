@@ -23,3 +23,5 @@ This line is to test the code block: `this is a piece of code`
 The following line is to test the horizontal rule parsing
 ---
 This line is to ensure the horizontal rule was generated correctly in html.
+
+> This line is to test the ability for the program to generate blockquotes in html.
