@@ -10,7 +10,7 @@ function punctuationCheck(str){
 }
 
 // function to generate HTML from .txt or .md file
-function generateSite(file, stylesheet = '') {
+function generateSite(file, lang, stylesheet = ''){
   // check file extension (should only be using .txt files)
   let ext = path.extname(file);
   let fileName = path.basename(file, ext);
@@ -133,7 +133,7 @@ function generateSite(file, stylesheet = '') {
     if (stylesheet.length != 0){
       htmlHeader = `
         <!DOCTYPE html>
-        <html lang="en">
+        <html lang="${lang}">
         <head>
           <link rel="stylesheet" href="${stylesheet}">
           <meta charset="utf-8">
@@ -144,7 +144,7 @@ function generateSite(file, stylesheet = '') {
     } else {
       htmlHeader = `
         <!DOCTYPE html>
-        <html lang="en">
+        <html lang="${lang}">
         <head>
           <meta charset="utf-8">
           <title>${title}</title>

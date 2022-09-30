@@ -19,7 +19,8 @@ program
   .option('-v, --version', 'current program version')
   .option('-h, --help', 'program instructions')
   .option('-i, --input <input>', 'input folder or file')
-  .option('-s, --stylesheet <stylesheet>', 'stylesheet url');
+  .option('-s, --stylesheet <stylesheet>', 'stylesheet url')
+  .option('-l, --lang <lang>', 'language of the input file')
 
 program.parse();
 
@@ -38,6 +39,7 @@ if (options.help){
     -h, --help: program instructions
     -i, --input: path input folder or file to be converted to HTML. Note that folders are recursively searched for .txt files.
     -s, --stylesheet: stylesheet url to be used in the HTML file
+    -l, --lang: language of the input file. If not specified, the language will be set to 'en-CA' by default.
     
     The files will be saved in a '/dist' folder in the same directory as the input file/folder.
 
@@ -45,6 +47,8 @@ if (options.help){
     rohan-ssg -i .PATH/TO/FILE/input.txt -s https://example.com/stylesheet.css
     `);
 }
+
+const lang = options.lang || 'en-CA';
 
 if (options.input){
   // get path passed to program
@@ -60,9 +64,9 @@ if (options.input){
     if (stats.isFile()){
       // generate HTML file
       if (options.stylesheet){
-        helper.generateSite(path, options.stylesheet);
+        helper.generateSite(path, lang, options.stylesheet);
       } else {
-        helper.generateSite(path);
+        helper.generateSite(path, lang);
       }
     }
 
@@ -74,9 +78,9 @@ if (options.input){
       // generate HTML files for all .txt files in the directory
       fileArr.forEach((file) => {
         if (options.stylesheet){
-          helper.generateSite(file, options.stylesheet);
+          helper.generateSite(file, lang, options.stylesheet);
         } else {
-          helper.generateSite(file);
+          helper.generateSite(file, lang);
         }
       });
     }
