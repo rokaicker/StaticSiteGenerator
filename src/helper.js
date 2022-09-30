@@ -100,7 +100,7 @@ function generateSite(file, lang, stylesheet = ''){
       else if (line === '---'){
         body += `
         <hr>
-        `'
+        `;
       }
       else if (line.startsWith('> '))
       {
