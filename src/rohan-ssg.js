@@ -41,6 +41,7 @@ if (options.help){
     -i, --input: path input folder or file to be converted to HTML. Note that folders are recursively searched for .txt files.
     -s, --stylesheet: stylesheet url to be used in the HTML file
     -l, --lang: language of the input file. If not specified, the language will be set to 'en-CA' by default.
+    -c, --config: JSON config file. If specified, it overrides other options on the command line.
     
     The files will be saved in a '/dist' folder in the same directory as the input file/folder.
 
