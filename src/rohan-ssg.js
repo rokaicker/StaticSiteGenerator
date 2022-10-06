@@ -21,6 +21,7 @@ program
   .option('-i, --input <input>', 'input folder or file')
   .option('-s, --stylesheet <stylesheet>', 'stylesheet url')
   .option('-l, --lang <lang>', 'language of the input file')
+  .option('-c, --config <config>', 'JSON config file')
 
 program.parse();
 
@@ -48,11 +49,37 @@ if (options.help){
     `);
 }
 
-const lang = options.lang || 'en-CA';
 
-if (options.input){
+var lang = options.lang || 'en-CA';
+var stylesheet = options.stylesheet;
+var input = options.input;
+
+if (options.config){
+  const path = options.config;
+  try {
+    // read local json file 
+    // https://heynode.com/tutorial/readwrite-json-files-nodejs/
+    const jsonString = fs.readFileSync(path);
+    const json = JSON.parse(jsonString);
+    if (json.lang != null) {
+      lang = json.lang;
+    }
+    if (json.stylesheet != null) {
+      stylesheet = json.stylesheet;
+    }
+    if (json.input != null) {
+      input = json.input;
+    }
+  } catch (err) {
+    console.log(err);
+    return;
+  }
+}
+
+
+if (input){
   // get path passed to program
-  const path = options.input;
+  const path = input;
   // check if path is a file or a folder
   // - based on https://stackoverflow.com/questions/15630770/node-js-check-if-path-is-file-or-directory
   fs.lstat(path, (err, stats) => {
@@ -63,8 +90,8 @@ if (options.input){
     // if the path points to a file
     if (stats.isFile()){
       // generate HTML file
-      if (options.stylesheet){
-        helper.generateSite(path, lang, options.stylesheet);
+      if (stylesheet){
+        helper.generateSite(path, lang, stylesheet);
       } else {
         helper.generateSite(path, lang);
       }
@@ -77,8 +104,8 @@ if (options.input){
       helper.recursiveFileSearch(path, fileArr);
       // generate HTML files for all .txt files in the directory
       fileArr.forEach((file) => {
-        if (options.stylesheet){
-          helper.generateSite(file, lang, options.stylesheet);
+        if (stylesheet){
+          helper.generateSite(file, lang, stylesheet);
         } else {
           helper.generateSite(file, lang);
         }
