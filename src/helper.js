@@ -17,15 +17,13 @@ function generateSite(file, lang, stylesheet = ''){
   if (ext !== '.txt' && ext !== '.md'){
     return
   }
-  // create /dist folder if it doesn't exist
-  if (!fs.existsSync('./dist')){
-    fs.mkdirSync('./dist');
-  } else {
-    // if it does exist, delete all files in it (folder must be empty on each run)
-    fs.readdirSync('./dist').forEach((file) => {
-      fs.unlinkSync(`./dist/${file}`);
-    });
+
+  // create /dist folder if it doesn't exist, if it does exist delete the directory and all subdirectories and files
+  if (fs.existsSync('dist')){
+    fs.rmSync('./dist', { recursive: true });
   }
+  fs.mkdirSync('dist');
+
 
   const output = './dist/' + fileName + '.html';
   const inputStream = fs.createReadStream(file);
