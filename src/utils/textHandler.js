@@ -1,4 +1,4 @@
-textHandler = (emptyLines, title, text, titleFound, body, line) => {
+const textHandler = (emptyLines, title, text, titleFound, body, line) => {
   if (line.length === 0){
     emptyLines++;
   }
