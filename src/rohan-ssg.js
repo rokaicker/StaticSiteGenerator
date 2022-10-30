@@ -22,6 +22,7 @@ program
   .option('-s, --stylesheet <stylesheet>', 'stylesheet url')
   .option('-l, --lang <lang>', 'language of the input file')
   .option('-c, --config <config>', 'JSON config file')
+  .option('-t, --table', 'generate table of contents')
 
 program.parse();
 
@@ -54,6 +55,9 @@ if (options.help){
 var lang = options.lang || 'en-CA';
 var stylesheet = options.stylesheet;
 var input = options.input;
+var t = options.table;
+var generatedFiles = [];
+
 
 if (options.config){
   const path = options.config;
@@ -76,7 +80,6 @@ if (options.config){
     return;
   }
 }
-
 
 if (input){
   // get path passed to program
@@ -106,9 +109,17 @@ if (input){
       // generate HTML files for all .txt files in the directory
       fileArr.forEach((file) => {
         if (stylesheet){
-          helper.generateSite(file, lang, stylesheet);
+          if (t){
+            helper.generateSite(file, lang, generatedFiles, stylesheet);
+          } else {
+            helper.generateSite(file, lang, null, stylesheet);
+          }
         } else {
-          helper.generateSite(file, lang);
+          if (t){
+            helper.generateSite(file, lang, generatedFiles);
+          } else {
+            helper.generateSite(file, lang, null);
+          }
         }
       });
     }

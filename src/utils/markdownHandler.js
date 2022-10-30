@@ -1,4 +1,4 @@
-const markdownHandler = (fileMarkdown, text, body, ) => {
+const markdownHandler = (line, fileMarkdown, text, body) => {
   //check if the line is a heading 1
   fileMarkdown = true;
   if (line.startsWith('# '))
@@ -49,8 +49,9 @@ const markdownHandler = (fileMarkdown, text, body, ) => {
     <p>${line}</p>
     `;
   }
+  return {fileMarkdown, text, body};
 }
 
 module.exports = {
-  markdownHandler
+  markdownHandler: markdownHandler
 };

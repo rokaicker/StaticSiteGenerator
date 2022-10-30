@@ -1,4 +1,4 @@
-const textHandler = (emptyLines, title, text, titleFound, body, line) => {
+function textHandler(emptyLines, title, text, titleFound, body, line){
   if (line.length === 0){
     emptyLines++;
   }
@@ -20,6 +20,7 @@ const textHandler = (emptyLines, title, text, titleFound, body, line) => {
       text += (line + ' ');
     }
   }
+  return {emptyLines, title, text, titleFound, body};
 }
 
 module.exports = {

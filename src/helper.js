@@ -1,8 +1,9 @@
 const fs = require('fs');
 const path = require('path');
 const readline = require('readline');
-const text = require('./utils/textHandler.js');
-const md = require('utils/markdownHandler.js');
+const textGen = require('./utils/textHandler.js');
+const md = require('./utils/markdownHandler.js');
+const toc = require('./utils/TOC.js');
 
 function punctuationCheck(str){
   if (str.slice(-1) === '.' || str.slice(-1) === '!' || str.slice(-1) === '?' || str.slice(-1) === ',' || str.slice(-1) === ';' || str.slice(-1) === ':'){
@@ -12,7 +13,7 @@ function punctuationCheck(str){
 }
 
 // function to generate HTML from .txt or .md file
-function generateSite(file, lang, stylesheet = ''){
+function generateSite(file, lang, generatedFiles, stylesheet = ''){
   // check file extension (should only be using .txt files)
   let ext = path.extname(file);
   let fileName = path.basename(file, ext);
@@ -30,6 +31,10 @@ function generateSite(file, lang, stylesheet = ''){
   const output = './dist/' + fileName + '.html';
   const inputStream = fs.createReadStream(file);
   const outputStream = fs.createWriteStream(output);
+  // if (generatedFiles !== null){
+  //   generatedFiles.push(outputStream.path);
+  // }
+  generatedFiles.push(path.resolve(outputStream.path))
   const rl = readline.createInterface({
     input: inputStream,
     crlfDelay: Infinity
@@ -56,10 +61,10 @@ function generateSite(file, lang, stylesheet = ''){
 
   rl.on('line', (line) => {
     if (ext == '.txt') {
-      text.textHandler(emptyLines, title, text, titleFound, body, line);
+      ({emptyLines, title, text, titleFound, body} = textGen.textHandler(emptyLines, title, text, titleFound, body, line));
     }
     else if (ext == '.md') {
-      md.markdownHandler(fileMarkdown, text, body);
+      ({fileMarkdown, text, body} = md.markdownHandler(line, fileMarkdown, text, body));
     }
   });
   
@@ -98,26 +103,51 @@ function generateSite(file, lang, stylesheet = ''){
     }
 
     let htmlBody = "";
+    let contents = "";
+    if (generatedFiles != null){
+      contents = toc.generateTOC(generatedFiles);
+    }
 
     //check if file is .txt or .md, need to generate differently for each
     if (!fileMarkdown)
     {
-      htmlBody = `
-      <body>
-        <h1>${title}</h1>
-        ${body}
-      </body>
-      </html>
-      `;
+      if (contents != ""){
+        htmlBody = `
+        <body>
+          ${contents}
+          <h1>${title}</h1>
+          ${body}
+        </body>
+        </html>
+        `;
+      } else {
+        htmlBody = `
+        <body>
+          <h1>${title}</h1>
+          ${body}
+        </body>
+        </html>
+        `;
+      }
     }
     else
     {
-      htmlBody = `
-      <body>
-        ${body}
-      </body>
-      </html>
-      `;
+      if (contents != ""){
+        htmlBody = `
+        <body>
+          ${contents}
+          ${body}
+        </body>
+        </html>
+        `;
+      } else {
+        htmlBody = `
+        <body>
+          ${body}
+        </body>
+        </html>
+        `;
+      }
     }
 
     outputStream.write(htmlHeader);
